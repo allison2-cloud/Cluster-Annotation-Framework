@@ -1,0 +1,127 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Cluster Annotation Framework",
+  "type": "object",
+  "properties": {
+    "clusterMetadata": {
+      "type": "object",
+      "description": "Metadata describing the genetic and demographic properties of a patient cluster.",
+      "properties": {
+        "geneticMarkers": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "description": "Genetic markers associated with the cluster (e.g., MAPT, APP, APOE)."
+          }
+        },
+        "sociodemographicVariables": {
+          "type": "object",
+          "properties": {
+            "ageRange": {
+              "type": "string",
+              "description": "Age range of patients in the cluster (e.g., 60-70)."
+            },
+            "gender": {
+              "type": "string",
+              "enum": ["male", "female", "non-binary", "unknown"],
+              "description": "Gender distribution in the cluster."
+            },
+            "ethnicity": {
+              "type": "string",
+              "description": "Ethnic background of the cluster participants."
+            }
+          },
+          "required": ["ageRange", "gender", "ethnicity"]
+        },
+        "biomarkers": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "description": "List of biomarkers (e.g., tau protein levels, amyloid-beta levels)."
+          }
+        }
+      },
+      "required": ["geneticMarkers", "sociodemographicVariables", "biomarkers"]
+    },
+    "dataIntegration": {
+      "type": "object",
+      "description": "Links between various data sources and their contributions to the cluster analysis.",
+      "properties": {
+        "imagingData": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "imagingType": {
+                "type": "string",
+                "description": "Type of imaging data (e.g., FDG-PET)."
+              },
+              "fileURI": {
+                "type": "string",
+                "description": "URI for accessing the imaging data file."
+              }
+            },
+            "required": ["imagingType", "fileURI"]
+          }
+        },
+        "cognitiveAssessments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "assessmentType": {
+                "type": "string",
+                "description": "Type of cognitive test performed (e.g., MMSE, MoCA)."
+              },
+              "score": {
+                "type": "number",
+                "description": "Average score for the cluster."
+              }
+            },
+            "required": ["assessmentType", "score"]
+          }
+        }
+      },
+      "required": ["imagingData", "cognitiveAssessments"]
+    },
+    "interventionAnnotations": {
+      "type": "array",
+      "description": "Potential therapies or interventions linked to this cluster.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "targetGene": {
+            "type": "string",
+            "description": "Gene targeted by the intervention (e.g., APP)."
+          },
+          "therapyType": {
+            "type": "string",
+            "description": "Type of intervention (e.g., drug, gene therapy)."
+          },
+          "clinicalTrialStage": {
+            "type": "string",
+            "description": "Current stage of the intervention in clinical trials."
+          }
+        },
+        "required": ["targetGene", "therapyType", "clinicalTrialStage"]
+      }
+    },
+    "versionControl": {
+      "type": "object",
+      "description": "Tracks updates to genetic or imaging data as new research emerges.",
+      "properties": {
+        "lastUpdated": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp of the last update."
+        },
+        "updateNotes": {
+          "type": "string",
+          "description": "Summary of the latest changes or updates."
+        }
+      },
+      "required": ["lastUpdated", "updateNotes"]
+    }
+  },
+  "required": ["clusterMetadata", "dataIntegration", "interventionAnnotations", "versionControl"]
+}
